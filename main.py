@@ -1,96 +1,34 @@
 import pygame
 import sys
-import random
 from Cobra import Cobra
+from Comida import Comida
+from Inimigo import Inimigo
+from Velocidade import Velocidade
+import Variaveis as v
 
 pygame.init()
 
 
-
-# Classe da comida padrão
-class Comida(object):
-    # Definindo as informações principais da comida
-    def __init__(self):
-        self.posicao = (0, 0)
-        self.color = vermelho
-        self.aleatorizar_posicao()
-
-    # Aleatorizar a posição da comida
-    def aleatorizar_posicao(self):
-        self.posicao = (random.randint(0, int(largura_rede) - 1) * tamanho_rede,
-                        random.randint(0, int(altura_rede) - 1) * tamanho_rede)
-
-    # Desenhar a comida
-    def desenhar(self, superficie):
-        retangulo = pygame.Rect((self.posicao[0], self.posicao[1]), (tamanho_rede, tamanho_rede))
-        pygame.draw.rect(superficie, self.color, retangulo)
-        pygame.draw.rect(superficie, preto, retangulo, 1)
-
-class Inimigo(object):
-    # Definindo as informações principais da comida
-    def __init__(self):
-        self.posicao = (0, 0)
-        self.color = preto
-        self.aleatorizar_posicao()
-
-    # Aleatorizar a posição da comida
-    def aleatorizar_posicao(self):
-        self.posicao = ((random.randint(0, int(largura_rede) - 1) * tamanho_rede),
-                        (random.randint(0, int(altura_rede) - 1) * tamanho_rede))
-
-    # Desenhar a comida
-    def desenhar(self, superficie):
-        retangulo = pygame.Rect((self.posicao[0], self.posicao[1]), (tamanho_rede, tamanho_rede))
-        pygame.draw.rect(superficie, self.color, retangulo)
-        pygame.draw.rect(superficie, preto, retangulo, 1)
-
 # Função da "rede"
 def desenhar_rede(superficie):
     # Loop para fazer a "rede"
-    for y in range(0, int(altura_rede)):
-        for x in range(0, int(largura_rede)):
+    for y in range(0, int(v.altura_rede)):
+        for x in range(0, int(v.largura_rede)):
             # Fazer os quadrados que estão lado a lado terem cores diferentes
             if ((x + y) % 2) == 0:
                 # r = retângulo
                 # Definindo o retângulo
-                retangulo = pygame.Rect((x * tamanho_rede, y * tamanho_rede), (tamanho_rede, tamanho_rede))
+                retangulo = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
                 # Desenhar o retângulo
-                pygame.draw.rect(superficie, cinza1, retangulo)
+                pygame.draw.rect(superficie, v.cinza, retangulo)
             else:
                 # rr = retângulo
-                retangulo2 = pygame.Rect((x * tamanho_rede, y * tamanho_rede), (tamanho_rede, tamanho_rede))
-                pygame.draw.rect(superficie, cinza2, retangulo2)
+                retangulo2 = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
+                pygame.draw.rect(superficie, v.branco, retangulo2)
 
-
-# Na tela, 480/480 é o canto superior esquerdo e 0/0 é o inferior direito
-# Largura da tela
-largura = 480
-# Altura da tela
-altura = 480
-# Definindo cores rgb
-cinza1 = (120, 120, 120)
-cinza2 = (170, 170, 170)
-vermelho = (200, 40, 40)
-verde = (20, 200, 50)
-preto = (0, 0, 0)
-# Tamanho da rede/cada retângulo
-tamanho_rede = 20
-# Largura de cada retângulo
-largura_rede = largura / tamanho_rede
-# Altura de cada retângulo
-altura_rede = altura / tamanho_rede
-
-# Posições em que a cobra pode se mover
-CIMA = (0, -1)
-BAIXO = (0, 1)
-ESQUERDA = (-1, 0)
-DIREITA = (1, 0)
 
 # Fonte do texto que estará no placar
 fonte = pygame.font.Font('freesansbold.ttf', 30)
-
-# Pontuação inicial
-pontuacao = 0
 
 
 def main():
@@ -99,7 +37,7 @@ def main():
     # Controla a velocidade com que o jogo roda
     relogio = pygame.time.Clock()
     # Setando a tela
-    tela = pygame.display.set_mode((largura, altura), 0, 32)
+    tela = pygame.display.set_mode((v.largura, v.altura), 0, 32)
 
     # Setar uma superfície
     # Melhor maneira de ter "múltiplas telas", como menus
@@ -114,25 +52,26 @@ def main():
     # Criando instâncias das classes
     cobra = Cobra()
     comida = Comida()
+    velocidade = Velocidade()
     inimigo = Inimigo()
     inimigo2 = Inimigo()
     inimigo3 = Inimigo()
     inimigo4 = Inimigo()
 
     # Pontuação começa com 0
-    global pontuacao
     pontuacao = 0
 
     # Enquanto o jogo estiver rodando, o loop acontecerá
     while True:
         # Mudando a velocidade com que a cobra se move
-        relogio.tick(10)
+        relogio.tick(v.vel)
         # Saber se o jogador interagiu
         cobra.comandos()
         # Recriando a rede a cada loop
         desenhar_rede(superficie)
         # Mover o corpo da cobra
         cobra.mover()
+        inimigo4.comando()
 
         # Checar se a cobra comeu a comida
         if cobra.saber_cabeca() == comida.posicao:
@@ -142,6 +81,11 @@ def main():
             pontuacao += 1
             # A comida reaparece
             comida.aleatorizar_posicao()
+        # Checar se a cobra pegou o item de velocidade
+        if cobra.saber_cabeca() == velocidade.posicao:
+            # Aumentar a velocidade
+            v.vel += 5
+            velocidade.aleatorizar_posicao()
         if cobra.saber_cabeca() == (inimigo.posicao):
             if pontuacao == 0:
                 pygame.quit()
@@ -178,14 +122,17 @@ def main():
         cobra.desenhar(superficie)
         # redesenhar a comida, que pode ter sido comida
         comida.desenhar(superficie)
+        velocidade.desenhar(superficie)
         inimigo.desenhar(superficie)
         inimigo2.desenhar(superficie)
         inimigo3.desenhar(superficie)
         inimigo4.desenhar(superficie)
         # Tendo certeza de que a superfície está na tela
         tela.blit(superficie, (0, 0))
+        if cobra.tamanho == 1:
+            pontuacao = 0
         # Texto do placar
-        text = fonte.render("Pontos: {0}".format(pontuacao), True, preto)
+        text = fonte.render("Pontos: {0}".format(pontuacao), True, v.preto)
         # Placar
         tela.blit(text, (5, 10))
         # Fazendo a superfície de exibição realmente aparecer no monitor do usuário
