@@ -1,8 +1,7 @@
 import pygame
-import sys
 import random
 
-from Variaveis import Variaveis as v
+import Variaveis as v
 
 class Inimigo(object):
     # Definindo as informações principais da comida

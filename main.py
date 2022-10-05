@@ -4,26 +4,26 @@ import random
 from Cobra import Cobra
 from Comida import Comida
 from Inimigo import Inimigo
-from Variaveis import Variaveis as v
+import Variaveis as v
 
 pygame.init()
 
 # Função da "rede"
 def desenhar_rede(superficie):
     # Loop para fazer a "rede"
-    for y in range(0, int(altura_rede)):
-        for x in range(0, int(largura_rede)):
+    for y in range(0, int(v.altura_rede)):
+        for x in range(0, int(v.largura_rede)):
             # Fazer os quadrados que estão lado a lado terem cores diferentes
             if ((x + y) % 2) == 0:
                 # r = retângulo
                 # Definindo o retângulo
                 retangulo = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
                 # Desenhar o retângulo
-                pygame.draw.rect(superficie, v.cinza1, retangulo)
+                pygame.draw.rect(superficie, v.branco, retangulo)
             else:
                 # rr = retângulo
                 retangulo2 = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
-                pygame.draw.rect(superficie, v.cinza2, retangulo2)
+                pygame.draw.rect(superficie, v.cinza, retangulo2)
 
 
 # Fonte do texto que estará no placar

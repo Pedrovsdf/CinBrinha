@@ -2,17 +2,19 @@ import pygame
 import sys
 import random
 
+import Variaveis as v
+
 class Cobra(object):
     # Definindo as informações principais da cobra
     def __init__(self):
         # Tamanho da cobra
         self.tamanho = 1
         # Posição de toda a cobra, começando no meio da tela
-        self.posicoes = [((largura / 2), (altura / 2))]
+        self.posicoes = [((v.largura / 2), (v.altura / 2))]
         # Começar se movendo numa direção aleatória
-        self.direcao = random.choice([CIMA, BAIXO, ESQUERDA, DIREITA])
+        self.direcao = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
         # Cor da cobra
-        self.color = verde
+        self.color = v.verde
 
     # Saber onde está a cabeça da cobra
     def saber_cabeca(self):
@@ -35,7 +37,7 @@ class Cobra(object):
         x, y = self.direcao
         # Próxima localização da cobra
         # Qualquer que seja a direção, irá se mover apenas um quadrado por vez
-        novo = (((atual[0] + (x * tamanho_rede)) % largura), (atual[1] + (y * tamanho_rede)) % altura)
+        novo = (((atual[0] + (x * v.tamanho_rede)) % v.largura), (atual[1] + (y * v.tamanho_rede)) % v.altura)
         # Fazer com que o resto do corpo se mova para o lugar em que o pedaço da frente estava
         # Movendo apenas a "cabeça" e a "cauda"
         if len(self.posicoes) > 2 and novo in self.posicoes[2:]:
@@ -53,17 +55,17 @@ class Cobra(object):
     # Quando a cobra bater no próprio corpo, o jogo resetará
     def reset(self):
         self.tamanho = 1
-        self.posicoes = [((largura / 2), (altura / 2))]
-        self.direcao = random.choice([CIMA, BAIXO, ESQUERDA, DIREITA])
+        self.posicoes = [((v.largura / 2), (v.altura / 2))]
+        self.direcao = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
         global pontuacao
         pontuacao = 0
 
     # Desenhar o corpo da cobra na superfície
     def desenhar(self, superficie):
         for posicao in self.posicoes:
-            retangulo = pygame.Rect((posicao[0], posicao[1]), (tamanho_rede, tamanho_rede))
+            retangulo = pygame.Rect((posicao[0], posicao[1]), (v.tamanho_rede, v.tamanho_rede))
             pygame.draw.rect(superficie, self.color, retangulo)
-            pygame.draw.rect(superficie, preto, retangulo, 1)
+            pygame.draw.rect(superficie, v.preto, retangulo, 1)
 
     # Comandos
     def comandos(self):
@@ -76,13 +78,13 @@ class Cobra(object):
             # Se apertar alguma chave
             elif evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_UP:
-                    self.virar(CIMA)
+                    self.virar(v.CIMA)
                 elif evento.key == pygame.K_DOWN:
-                    self.virar(BAIXO)
+                    self.virar(v.BAIXO)
                 elif evento.key == pygame.K_LEFT:
-                    self.virar(ESQUERDA)
+                    self.virar(v.ESQUERDA)
                 elif evento.key == pygame.K_RIGHT:
-                    self.virar(DIREITA)
+                    self.virar(v.DIREITA)
 
 # Pontuação inicial
 pontuacao = 0

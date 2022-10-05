@@ -1,8 +1,7 @@
 import pygame
-import sys
 import random
 
-from Variaveis import Variaveis as v
+import Variaveis as v
 
 # Classe da comida padrão
 class Comida(object):
