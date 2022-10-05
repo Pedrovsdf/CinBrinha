@@ -69,6 +69,7 @@ def main():
         desenhar_rede(superficie)
         # Mover o corpo da cobra
         cobra.mover()
+        inimigo4.comando()
 
         # Checar se a cobra comeu a comida
         if cobra.saber_cabeca() == comida.posicao:
