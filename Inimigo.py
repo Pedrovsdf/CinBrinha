@@ -22,3 +22,8 @@ class Inimigo(object):
         retangulo = pygame.Rect((self.posicao[0], self.posicao[1]), (v.tamanho_rede, v.tamanho_rede))
         pygame.draw.rect(superficie, self.color, retangulo)
         pygame.draw.rect(superficie, v.preto, retangulo, 1)
+    
+    def comando(self):
+        x, y = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
+        novo = (((self.posicao[0] + (x * v.tamanho_rede)) % v.largura), (self.posicao[1] + (y * v.tamanho_rede)) % v.altura)
+        self.posicao = novo
