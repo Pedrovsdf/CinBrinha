@@ -1,6 +1,5 @@
 import pygame
 import sys
-import random
 from Cobra import Cobra
 from Comida import Comida
 from Inimigo import Inimigo
