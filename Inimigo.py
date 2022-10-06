@@ -7,10 +7,15 @@ import Variaveis as v
 
 class Inimigo(object):
     # Definindo as informações principais da comida
-    def __init__(self):
+    def __init__(self, movel):
         self.posicao = (0, 0)
-        self.color = v.preto
+        
+        if movel == True: 
+            self.color = v.roxo
+        else:
+            self.color = v.preto
         self.aleatorizar_posicao()
+        self.movel = movel
 
     # Aleatorizar a posição da comida
     def aleatorizar_posicao(self):
@@ -23,8 +28,8 @@ class Inimigo(object):
         pygame.draw.rect(superficie, self.color, retangulo)
         pygame.draw.rect(superficie, v.preto, retangulo, 1)
 
-    def comando(self):
-        x, y = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
+    def comando(self, direcao):
+        x, y = direcao
         novo = (
-        ((self.posicao[0] + (x * v.tamanho_rede)) % v.largura), (self.posicao[1] + (y * v.tamanho_rede)) % v.altura)
+        ((self.posicao[0] + (v.tamanho_rede)) % v.largura), (self.posicao[1] + (y * v.tamanho_rede)) % v.altura)
         self.posicao = novo
