@@ -5,6 +5,7 @@ from Comida import Comida
 from Inimigo import Inimigo
 from Velocidade import Velocidade
 import Variaveis as v
+from PocaoVida import Vida
 
 pygame.init()
 
@@ -52,14 +53,20 @@ def main():
     # Criando instâncias das classes
     cobra = Cobra()
     comida = Comida()
+    pocao_vida = Vida()
     velocidade = Velocidade()
-    inimigo = Inimigo()
-    inimigo2 = Inimigo()
-    inimigo3 = Inimigo()
-    inimigo4 = Inimigo()
+    inimigo = Inimigo(False)
+    inimigo2 = Inimigo(False)
+    inimigo3 = Inimigo(False)
+    inimigo4= Inimigo(False)
+    inimigo5= Inimigo(False)
+    inimigo_movel1 = Inimigo(True)
+    inimigo_movel2= Inimigo(True)
 
     # Pontuação começa com 0
     pontuacao = 0
+    # Vida começa com 3
+    vida = 3
 
     # Enquanto o jogo estiver rodando, o loop acontecerá
     while True:
@@ -71,7 +78,8 @@ def main():
         desenhar_rede(superficie)
         # Mover o corpo da cobra
         cobra.mover()
-        inimigo4.comando()
+        inimigo_movel1.comando(v.CIMA)
+        inimigo_movel2.comando(v.DIREITA)
 
         # Checar se a cobra comeu a comida
         if cobra.saber_cabeca() == comida.posicao:
@@ -83,41 +91,85 @@ def main():
             comida.aleatorizar_posicao()
         # Checar se a cobra pegou o item de velocidade
         if cobra.saber_cabeca() == velocidade.posicao:
-            # Aumentar a velocidade
-            v.vel += 5
+            v.vel += 2
             velocidade.aleatorizar_posicao()
         if cobra.saber_cabeca() == (inimigo.posicao):
-            if pontuacao == 0:
+            # Diminui a pontuação
+            vida -= 1
+
+            if vida <= 0:
                 pygame.quit()
                 sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
+            
             # O inimigo reaparece
             inimigo.aleatorizar_posicao()
         elif cobra.saber_cabeca() == (inimigo2.posicao):
-            if pontuacao == 0:
+            # Diminui a pontuação
+            vida -= 1
+
+            if vida <= 0:
                 pygame.quit()
                 sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
+
             # O inimigo reaparece
             inimigo2.aleatorizar_posicao()
         elif cobra.saber_cabeca() == (inimigo3.posicao):
-            if pontuacao == 0:
+            # Diminui a pontuação
+            vida -= 1
+
+            if vida <= 0:
                 pygame.quit()
                 sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
+
             # O inimigo reaparece
             inimigo3.aleatorizar_posicao()
         elif cobra.saber_cabeca() == (inimigo4.posicao):
-            if pontuacao == 0:
+            # Diminui a pontuação
+            vida -= 1
+
+            if vida <= 0:
                 pygame.quit()
                 sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
+
             # O inimigo reaparece
-            inimigo4.aleatorizar_posicao()
+            inimigo3.aleatorizar_posicao()
+        elif cobra.saber_cabeca() == (inimigo5.posicao):
+            # Diminui a pontuação
+            vida -= 1
+
+            if vida <= 0:
+                pygame.quit()
+                sys.exit()
+
+            # O inimigo reaparece
+            inimigo3.aleatorizar_posicao()
+        elif cobra.saber_cabeca() == (inimigo_movel1.posicao):
+            # Diminui a pontuação
+            vida -= 1
+
+            if vida <= 0:
+                pygame.quit()
+                sys.exit()
+
+            # O inimigo reaparece
+            inimigo_movel1.aleatorizar_posicao()
+        elif cobra.saber_cabeca() == (inimigo_movel2.posicao):
+            # Diminui a pontuação
+            vida -= 1
+
+            if vida <= 0:
+                pygame.quit()
+                sys.exit()
+
+            # O inimigo reaparece
+            inimigo_movel2.aleatorizar_posicao()
+
+        if cobra.saber_cabeca() == pocao_vida.posicao and vida < 3:
+            # Aumenta a vida
+            vida += 1
+
+            # A vida reaparece a cada tempo
+            pocao_vida.aleatorizar_posicao()
         # redesenhar a cobra, que pode estar maior do que antes
         cobra.desenhar(superficie)
         # redesenhar a comida, que pode ter sido comida
@@ -127,6 +179,10 @@ def main():
         inimigo2.desenhar(superficie)
         inimigo3.desenhar(superficie)
         inimigo4.desenhar(superficie)
+        inimigo5.desenhar(superficie)
+        inimigo_movel1.desenhar(superficie)
+        inimigo_movel2.desenhar(superficie)
+        pocao_vida.desenhar(superficie)
         # Tendo certeza de que a superfície está na tela
         tela.blit(superficie, (0, 0))
         if cobra.tamanho == 1:
@@ -134,9 +190,11 @@ def main():
         # Texto do placar
         text_pont = fonte.render("Pontos: {0}".format(pontuacao), True, v.preto)
         text_vel = fonte.render("Velocidade: {0}".format(v.vel), True, v.preto)
+        text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
         # Placar
         tela.blit(text_pont, (5, 10)) #pontuação no canto superior esquerdo
-        tela.blit(text_vel, (257, 10)) #velocidade no canto superior direito
+        tela.blit(text_vel, (210, 10)) #velocidade no canto superior direito
+        tela.blit(text_vida, (480, 10)) #velocidade no canto superior direito
         # Fazendo a superfície de exibição realmente aparecer no monitor do usuário
         pygame.display.update()
 
