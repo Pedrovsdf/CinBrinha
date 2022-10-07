@@ -11,6 +11,7 @@ vermelho = (200, 40, 40)
 verde = (20, 200, 50)
 amarelo = (243, 213, 0)
 roxo = (148, 0, 211)
+rosa = (255, 93, 149)
 # Tamanho da rede/cada retângulo
 tamanho_rede = 20
 # Largura de cada retângulo
