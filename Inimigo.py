@@ -30,6 +30,5 @@ class Inimigo(object):
 
     def comando(self, direcao):
         x, y = direcao
-        novo = (
-        ((self.posicao[0] + (v.tamanho_rede)) % v.largura), (self.posicao[1] + (y * v.tamanho_rede)) % v.altura)
+        novo = (((self.posicao[0] + (v.tamanho_rede)) % v.largura), (self.posicao[1] + (y * v.tamanho_rede)) % v.altura)
         self.posicao = novo
