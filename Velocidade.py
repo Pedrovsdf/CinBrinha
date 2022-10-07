@@ -3,11 +3,11 @@ import random
 import Variaveis as v
 
 # Classe da comida padrão
-class Comida(object):
+class Velocidade(object):
     # Definindo as informações principais da comida
     def __init__(self):
         self.posicao = (0, 0)
-        self.color = v.amarelo
+        self.color = v.vermelho
         self.aleatorizar_posicao()
 
     # Aleatorizar a posição da comida

@@ -1,8 +1,8 @@
 import pygame
 import sys
 import random
-
 import Variaveis as v
+
 
 class Cobra(object):
     # Definindo as informações principais da cobra
@@ -10,7 +10,7 @@ class Cobra(object):
         # Tamanho da cobra
         self.tamanho = 1
         # Posição de toda a cobra, começando no meio da tela
-        self.posicoes = [((v.largura / 2), (v.altura / 2))]
+        self.posicoes = [(int(v.largura / 2), int(v.altura / 2))]
         # Começar se movendo numa direção aleatória
         self.direcao = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
         # Cor da cobra
@@ -37,7 +37,7 @@ class Cobra(object):
         x, y = self.direcao
         # Próxima localização da cobra
         # Qualquer que seja a direção, irá se mover apenas um quadrado por vez
-        novo = (((atual[0] + (x * v.tamanho_rede)) % v.largura), (atual[1] + (y * v.tamanho_rede)) % v.altura)
+        novo = (int((atual[0] + (x * v.tamanho_rede)) % v.largura), int(atual[1] + (y * v.tamanho_rede)) % v.altura)
         # Fazer com que o resto do corpo se mova para o lugar em que o pedaço da frente estava
         # Movendo apenas a "cabeça" e a "cauda"
         if len(self.posicoes) > 2 and novo in self.posicoes[2:]:
@@ -50,7 +50,6 @@ class Cobra(object):
             # Quando resetar, o corpo será apagado, restando apenas a cabeça
             if len(self.posicoes) > self.tamanho:
                 self.posicoes.pop()
-        
 
     # Quando a cobra bater no próprio corpo, o jogo resetará
     def reset(self):
@@ -85,6 +84,7 @@ class Cobra(object):
                     self.virar(v.ESQUERDA)
                 elif evento.key == pygame.K_RIGHT:
                     self.virar(v.DIREITA)
+
 
 # Pontuação inicial
 pontuacao = 0
