@@ -162,9 +162,11 @@ def main():
         if cobra.tamanho == 1:
             pontuacao = 0
         # Texto do placar
-        text = fonte.render("Pontos: {0}".format(pontuacao), True, v.preto)
+        text_pont = fonte.render("Pontos: {0}".format(pontuacao), True, v.preto)
+        text_vel = fonte.render("Velocidade: {0}".format(v.vel), True, v.preto)
         # Placar
-        tela.blit(text, (5, 10))
+        tela.blit(text_pont, (5, 10)) #pontuação no canto superior esquerdo
+        tela.blit(text_vel, (257, 10)) #velocidade no canto superior direito
         # Fazendo a superfície de exibição realmente aparecer no monitor do usuário
         pygame.display.update()
 
