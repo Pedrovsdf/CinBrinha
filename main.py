@@ -30,6 +30,14 @@ def desenhar_rede(superficie):
 # Fonte do texto que estará no placar
 fonte = pygame.font.Font('freesansbold.ttf', 30)
 
+def inimigo_main(inimigo, vida):
+    if vida <= 0:
+        pygame.quit()
+        sys.exit()
+    # Diminui a pontuação
+    vida -= 1
+    # O inimigo reaparece
+    inimigo.aleatorizar_posicao()
 
 def main():
     pygame.init()
@@ -61,8 +69,12 @@ def main():
     inimigo_movel1 = Inimigo(True)
     inimigo_movel2= Inimigo(True)
 
+    inimigos = [inimigo, inimigo2, inimigo3, inimigo4, inimigo5, inimigo_movel1, inimigo_movel2]
+
     # Pontuação começa com 0
     pontuacao = 0
+    #Vida começa com 3
+    vida = 3
 
     # Enquanto o jogo estiver rodando, o loop acontecerá
     while True:
@@ -88,63 +100,14 @@ def main():
         # Checar se a cobra pegou o item de velocidade
         if cobra.saber_cabeca() == velocidade.posicao:
             v.vel += 2
+            pontuacao += 3
             velocidade.aleatorizar_posicao()
-        if cobra.saber_cabeca() == (inimigo.posicao):
-            if pontuacao <= 0:
-                pygame.quit()
-                sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
-            # O inimigo reaparece
-            inimigo.aleatorizar_posicao()
-        elif cobra.saber_cabeca() == (inimigo2.posicao):
-            if pontuacao <= 0:
-                pygame.quit()
-                sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
-            # O inimigo reaparece
-            inimigo2.aleatorizar_posicao()
-        elif cobra.saber_cabeca() == (inimigo3.posicao):
-            if pontuacao <= 0:
-                pygame.quit()
-                sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
-            # O inimigo reaparece
-            inimigo3.aleatorizar_posicao()
-        elif cobra.saber_cabeca() == (inimigo4.posicao):
-            if pontuacao <= 0:
-                pygame.quit()
-                sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
-            # O inimigo reaparece
-            inimigo3.aleatorizar_posicao()
-        elif cobra.saber_cabeca() == (inimigo5.posicao):
-            if pontuacao <= 0:
-                pygame.quit()
-                sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
-            # O inimigo reaparece
-            inimigo3.aleatorizar_posicao()
-        elif cobra.saber_cabeca() == (inimigo_movel1.posicao):
-            if pontuacao <= 0:
-                pygame.quit()
-                sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
-            # O inimigo reaparece
-            #inimigo_movel1.aleatorizar_posicao()
-        elif cobra.saber_cabeca() == (inimigo_movel2.posicao):
-            if pontuacao <= 0:
-                pygame.quit()
-                sys.exit()
-            # Diminui a pontuação
-            pontuacao -= 1
-            # O inimigo reaparece
-            #inimigo_movel2.aleatorizar_posicao()
+
+        for inimigo in inimigos:
+            if cobra.saber_cabeca() == (inimigo.posicao):
+                inimigo_main(inimigo, vida)
+                break
+
         # redesenhar a cobra, que pode estar maior do que antes
         cobra.desenhar(superficie)
         # redesenhar a comida, que pode ter sido comida

@@ -1,8 +1,8 @@
 # Na tela, 480/480 é o canto superior esquerdo e 0/0 é o inferior direito
 # Largura da tela
-largura = 480
+largura = 600
 # Altura da tela
-altura = 480
+altura = 600
 # Definindo cores rgb
 preto = (0, 0, 0)
 branco = (255, 255, 255)
