@@ -62,6 +62,7 @@ def main():
     # Criando instâncias das classes
     cobra = Cobra()
     comida = Comida()
+    pocao_vida = Vida()
     velocidade = Velocidade()
     pocao_vida = Vida()
     inimigo = Inimigo(False)
@@ -129,6 +130,7 @@ def main():
         inimigo5.desenhar(superficie)
         inimigo_movel1.desenhar(superficie)
         inimigo_movel2.desenhar(superficie)
+        pocao_vida.desenhar(superficie)
         # Tendo certeza de que a superfície está na tela
         tela.blit(superficie, (0, 0))
         if cobra.tamanho == 1:
