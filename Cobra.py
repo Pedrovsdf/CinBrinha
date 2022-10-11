@@ -15,6 +15,8 @@ class Cobra(object):
         self.direcao = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
         # Cor da cobra
         self.color = v.verde
+        # Pontuacao da cobra
+        self.pontuacao = 0
 
     # Saber onde está a cabeça da cobra
     def saber_cabeca(self):
@@ -56,9 +58,9 @@ class Cobra(object):
         self.tamanho = 1
         self.posicoes = [((v.largura / 2), (v.altura / 2))]
         self.direcao = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
-        global pontuacao
         pontuacao = 0
-
+        return self.tamanho, self.posicoes, self.direcao, pontuacao
+    
     # Desenhar o corpo da cobra na superfície
     def desenhar(self, superficie):
         for posicao in self.posicoes:
@@ -84,7 +86,3 @@ class Cobra(object):
                     self.virar(v.ESQUERDA)
                 elif evento.key == pygame.K_RIGHT:
                     self.virar(v.DIREITA)
-
-
-# Pontuação inicial
-pontuacao = 0

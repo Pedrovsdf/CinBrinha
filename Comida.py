@@ -2,6 +2,7 @@ import pygame
 import random
 import Variaveis as v
 
+
 # Classe da comida padrão
 class Comida(object):
     # Definindo as informações principais da comida
