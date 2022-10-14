@@ -78,9 +78,11 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
     text_pont = fonte.render("Pontos: {0}".format(cobra.pontuacao), True, v.preto)
     text_vel = fonte.render("Velocidade: {0}".format(v.vel), True, v.preto)
     text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
+    text_fase = fonte.render("Fase: 1", True, v.preto)
     # Placar
     tela.blit(text_pont, (5, 10)) #pontuação no canto superior esquerdo
     tela.blit(text_vel, (210, 10)) #velocidade no meio superior 
     tela.blit(text_vida, (480, 10)) #velocidade no canto superior direito
+    tela.blit(text_fase,(5, 570))
     # Fazendo a superfície de exibição realmente aparecer no monitor do usuário
     pygame.display.update()

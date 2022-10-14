@@ -40,7 +40,7 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
             cobra.pontuacao = 0
             portal.posicao = (-1, -1)
             break
-    # Checar se a cobra comeu a comida
+    # Checar se a cobra pegou a moeda
     if cobra.saber_cabeca() == comida.posicao:
         # Aumenta o tamanho da cobra
         cobra.tamanho += 1
@@ -91,9 +91,11 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
     text_pont = fonte.render(f"Pontos: {cobra.pontuacao}", True, v.preto)
     text_vel = fonte.render("Velocidade: {0}".format(v.vel), True, v.preto)
     text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
+    text_fase = fonte.render("Fase: 2", True, v.preto)
     # Placar
     tela.blit(text_pont, (5, 10)) #pontuação no canto superior esquerdo
     tela.blit(text_vel, (210, 10)) #velocidade no meio superior 
     tela.blit(text_vida, (480, 10)) #velocidade no canto superior direito
+    tela.blit(text_fase,(5, 570))
     # Fazendo a superfície de exibição realmente aparecer no monitor do usuário
     pygame.display.update()
