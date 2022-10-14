@@ -1,5 +1,6 @@
 # from tkinter import font
 import pygame
+
 import sys
 from Cobra import Cobra
 from Comida import Comida
@@ -29,8 +30,7 @@ def desenhar_rede(superficie):
             else:
                 # rr = retângulo
                 retangulo2 = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
-                pygame.draw.rect(superficie, v.branco, retangulo2)
-
+                pygame.draw.rect(superficie, v.cinza, retangulo2)
 
 # Fonte do texto que estará no placar
 fonte = pygame.font.Font('freesansbold.ttf', 30)
