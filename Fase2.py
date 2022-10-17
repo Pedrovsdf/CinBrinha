@@ -1,11 +1,11 @@
-from Comida import Comida
 from Inimigo import Inimigo
 from PocaoVida import Vida
+from Pontos import Ponto
 from Portal import Portal
 
 
-def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, vida, v, fonte, inimigo_main):
-  comida = Comida()
+def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main):
+  ponto = Ponto()
   pocao_vida = Vida()
   inimigo = Inimigo(False)
   inimigo2 = Inimigo(False)
@@ -32,7 +32,7 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
     inimigo_movel2.comando(v.DIREITA)
     inimigo_movel3.comando(v.ESQUERDA)
     inimigo_movel4.comando(v.BAIXO)
-    if cobra.pontuacao >= 5:
+    if cobra.pontuacao >= 15:
         portal = Portal()
         portal.posicao = (300, 300)
         portal.desenhar(superficie)
@@ -41,20 +41,13 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
             portal.posicao = (-1, -1)
             break
     # Checar se a cobra pegou a moeda
-    if cobra.saber_cabeca() == comida.posicao:
+    if cobra.saber_cabeca() == ponto.posicao:
         # Aumenta o tamanho da cobra
         cobra.tamanho += 1
         # Aumenta a pontuação
         cobra.pontuacao += 1
-        # A comida reaparece
-        comida.aleatorizar_posicao()
-    
-    # Checar se a cobra pegou o item de velocidade
-    if cobra.saber_cabeca() == velocidade.posicao:
-        v.vel += 2
-        cobra.pontuacao += 3
-        cobra.tamanho += 1
-        velocidade.aleatorizar_posicao()
+        # O ponto reaparece
+        ponto.aleatorizar_posicao()
     
     elif cobra.saber_cabeca() == pocao_vida.posicao and vida <3:
         # Aumenta a vida
@@ -69,9 +62,8 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
             break #quando achar um inimigo que bateu, já pode parar de procurar
     # redesenhar a cobra, que pode estar maior do que antes
     cobra.desenhar(superficie)
-    # redesenhar a comida, que pode ter sido comida
-    comida.desenhar(superficie)
-    velocidade.desenhar(superficie)
+    # redesenhar tudo - que podem ter sido comidos
+    ponto.desenhar(superficie)
     pocao_vida.desenhar(superficie)
     inimigo.desenhar(superficie)
     inimigo2.desenhar(superficie)
@@ -88,14 +80,14 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
     if cobra.tamanho == 1:
         cobra.pontuacao = 0
     # Texto do placar
-    text_pont = fonte.render(f"Pontos: {cobra.pontuacao}", True, v.preto)
-    text_vel = fonte.render("Velocidade: {0}".format(v.vel), True, v.preto)
-    text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
+     # Texto do placar
+    text_pont = fonte.render("Pontos: {0}".format(cobra.pontuacao), True, v.preto)
     text_fase = fonte.render("Fase: 2", True, v.preto)
+    text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
+
     # Placar
     tela.blit(text_pont, (5, 10)) #pontuação no canto superior esquerdo
-    tela.blit(text_vel, (210, 10)) #velocidade no meio superior 
-    tela.blit(text_vida, (480, 10)) #velocidade no canto superior direito
-    tela.blit(text_fase,(5, 570))
+    tela.blit(text_fase, (260, 10)) #fase no meio superior 
+    tela.blit(text_vida, (480, 10)) #vida no canto superior direito
     # Fazendo a superfície de exibição realmente aparecer no monitor do usuário
     pygame.display.update()
