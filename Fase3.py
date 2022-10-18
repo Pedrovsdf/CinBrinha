@@ -1,56 +1,25 @@
+from Comida import Comida
 from Inimigo import Inimigo
 from PocaoVida import Vida
-from Pontos import Ponto
 from Portal import Portal
 
 
-def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main):
-  posicoes_obj = [(int(300), int(300))]
-  
-  ponto = Ponto(posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(ponto.posicao)
-
-  pocao_vida = Vida(posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(pocao_vida.posicao)
-
-  inimigo = Inimigo(False, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo.posicao)
-
-  inimigo2 = Inimigo(False, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo2.posicao)
-
-  inimigo3 = Inimigo(False, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo3.posicao)
-
-  inimigo4 = Inimigo(False, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo4.posicao)
-
-  inimigo5 = Inimigo(False, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo5.posicao)
-
-  inimigo6 = Inimigo(False, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo6.posicao)
-  
-  inimigo7 = Inimigo(False, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo7.posicao)
-  
-  inimigo_movel1 = Inimigo(True, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo_movel1.posicao)
-
-  inimigo_movel2 = Inimigo(True, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo_movel2.posicao)
-  
-  inimigo_movel3 = Inimigo(True, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo_movel3.posicao)
-  
-  inimigo_movel4 = Inimigo(True, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo_movel4.posicao)
-  
-  inimigo_movel5 = Inimigo(True, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo_movel5.posicao)
-
-  inimigo_movel6 = Inimigo(True, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo_movel6.posicao)
+def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, vida, v, fonte, inimigo_main):
+  comida = Comida()
+  pocao_vida = Vida()
+  inimigo = Inimigo(False)
+  inimigo2 = Inimigo(False)
+  inimigo3 = Inimigo(False)
+  inimigo4 = Inimigo(False)
+  inimigo5 = Inimigo(False)
+  inimigo6 = Inimigo(False)
+  inimigo7 = Inimigo(False)
+  inimigo_movel1 = Inimigo(True)
+  inimigo_movel2 = Inimigo(True)
+  inimigo_movel3 = Inimigo(True)
+  inimigo_movel4 = Inimigo(True)
+  inimigo_movel5 = Inimigo(True)
+  inimigo_movel6 = Inimigo(True)
   
   inimigos = [inimigo, inimigo2, inimigo3, inimigo4, inimigo5, inimigo_movel1, inimigo_movel2, inimigo_movel3, inimigo_movel4, inimigo6, inimigo7, inimigo_movel5, inimigo_movel6]
   while True:
@@ -68,9 +37,7 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     inimigo_movel4.comando(v.BAIXO)
     inimigo_movel5.comando(v.CIMA)
     inimigo_movel6.comando(v.ESQUERDA)
-   
-   
-    if cobra.pontuacao >= 15:
+    if cobra.pontuacao >= 5:
         portal = Portal()
         portal.posicao = (300, 300)
         portal.desenhar(superficie)
@@ -78,10 +45,8 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
             cobra.pontuacao = 0
             portal.posicao = (-1, -1)
             break
-
-
-    # Checar se a cobra comeu o ponto
-    if cobra.saber_cabeca() == ponto.posicao:
+    # Checar se a cobra comeu a comida
+    if cobra.saber_cabeca() == comida.posicao:
         # Aumenta o tamanho da cobra
         cobra.tamanho += 1
         # Aumenta a pontuação
@@ -103,7 +68,6 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     # redesenhar a cobra, que pode estar maior do que antes
     cobra.desenhar(superficie)
     # redesenhar 
-
     ponto.desenhar(superficie)
     if vida < 3:
         pocao_vida.desenhar(superficie)
@@ -124,15 +88,16 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     tela.blit(superficie, (0, 0))
     if cobra.tamanho == 1:
         cobra.pontuacao = 0
-     # Texto do placar
-    text_pont = fonte.render("Pontos: {0}".format(cobra.pontuacao), True, v.preto)
-    text_fase = fonte.render("Fase: 2", True, v.preto)
+    # Texto do placar
+    text_pont = fonte.render(f"Pontos: {cobra.pontuacao}", True, v.preto)
     text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
+    text_fase = fonte.render("Fase: 3", True, v.preto)
 
     # Placar
     tela.blit(text_pont, (5, 10)) #pontuação no canto superior esquerdo
-    tela.blit(text_fase, (260, 10)) #fase no meio superior 
-    tela.blit(text_vida, (480, 10)) #vida no canto superior direito
+    tela.blit(text_vel, (210, 10)) #velocidade no meio superior 
+    tela.blit(text_vida, (480, 10)) #velocidade no canto superior direito
+ 
     
     # Fazendo a superfície de exibição realmente aparecer no monitor do usuário
     pygame.display.update()
