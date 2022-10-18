@@ -126,7 +126,7 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
         cobra.pontuacao = 0
      # Texto do placar
     text_pont = fonte.render("Pontos: {0}".format(cobra.pontuacao), True, v.preto)
-    text_fase = fonte.render("Fase: 2", True, v.preto)
+    text_fase = fonte.render("Fase: 3", True, v.preto)
     text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
 
     # Placar
