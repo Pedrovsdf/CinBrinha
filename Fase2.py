@@ -63,7 +63,8 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
         if portal.posicao == cobra.saber_cabeca():
             cobra.pontuacao = 0
             portal.posicao = (-1, -1)
-            break
+            return vida #para que na próxima fase a vida não comece com 3, mas com o que tinha nesta fase
+          
     # Checar se a cobra pegou a moeda
     if cobra.saber_cabeca() == ponto.posicao:
         # Aumenta o tamanho da cobra
