@@ -1,17 +1,15 @@
-# from tkinter import font
-import pygame
-
 import sys
-from Cobra import Cobra
-from Comida import Comida
-from Inimigo import Inimigo
-from Velocidade import Velocidade
+
+import pygame
 import Variaveis as v
-from Portal import Portal
-from PocaoVida import Vida
+from Cobra import Cobra
 from Fase1 import Fase1
 from Fase2 import Fase2
 from Fase3 import Fase3
+from Inimigo import Inimigo
+from PocaoVida import Vida
+from Pontos import Ponto
+from Portal import Portal
 
 pygame.init()
 
@@ -35,14 +33,15 @@ def desenhar_rede(superficie):
 # Fonte do texto que estará no placar
 fonte = pygame.font.Font('freesansbold.ttf', 30)
 
-def inimigo_main(inimigo, vida):
+def inimigo_main(inimigo, vida, posicoes_obj, posicoes_cobra):
+    
     if vida <= 0:
         pygame.quit()
         sys.exit()
     # Diminui a pontuação
     vida -= 1
     # O inimigo reaparece
-    inimigo.aleatorizar_posicao()
+    inimigo.aleatorizar_posicao(posicoes_obj, posicoes_cobra) 
     return vida, inimigo.posicao
 
 def main():
@@ -65,16 +64,15 @@ def main():
 
     # Criando instâncias das classes
     cobra = Cobra()
-    velocidade = Velocidade()
 
     #Vida começa com 3
     vida = 3
 
-    Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, vida, v, fonte, inimigo_main)
+    vida = Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
     desenhar_rede(superficie)
-    Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, vida, v, fonte, inimigo_main)
+    vida = Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
     desenhar_rede(superficie)
-    Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, vida, v, fonte, inimigo_main)
+    Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
     
 
 # Chamando a função main
