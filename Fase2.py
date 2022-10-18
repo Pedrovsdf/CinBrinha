@@ -1,21 +1,45 @@
-from Comida import Comida
 from Inimigo import Inimigo
 from PocaoVida import Vida
+from Pontos import Ponto
 from Portal import Portal
 
 
-def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, vida, v, fonte, inimigo_main):
-  comida = Comida()
-  pocao_vida = Vida()
-  inimigo = Inimigo(False)
-  inimigo2 = Inimigo(False)
-  inimigo3 = Inimigo(False)
-  inimigo4 = Inimigo(False)
-  inimigo5 = Inimigo(False)
-  inimigo_movel1 = Inimigo(True)
-  inimigo_movel2 = Inimigo(True)
-  inimigo_movel3 = Inimigo(True)
-  inimigo_movel4 = Inimigo(True)
+def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main):
+  posicoes_obj = [(int(300), int(300))]
+  
+  ponto = Ponto(posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(ponto.posicao)
+
+  pocao_vida = Vida(posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(pocao_vida.posicao)
+
+  inimigo = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo.posicao)
+
+  inimigo2 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo2.posicao)
+
+  inimigo3 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo3.posicao)
+
+  inimigo4 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo4.posicao)
+
+  inimigo5 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo5.posicao)
+
+  inimigo_movel1 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel1.posicao)
+
+  inimigo_movel2 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel2.posicao)
+  
+  inimigo_movel3 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel3.posicao)
+  
+  inimigo_movel4 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel4.posicao)
+  
   
   inimigos = [inimigo, inimigo2, inimigo3, inimigo4, inimigo5, inimigo_movel1, inimigo_movel2, inimigo_movel3, inimigo_movel4]
   print(f"teste{cobra.pontuacao}")
@@ -32,7 +56,7 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
     inimigo_movel2.comando(v.DIREITA)
     inimigo_movel3.comando(v.ESQUERDA)
     inimigo_movel4.comando(v.BAIXO)
-    if cobra.pontuacao >= 5:
+    if cobra.pontuacao >= 15:
         portal = Portal()
         portal.posicao = (300, 300)
         portal.desenhar(superficie)
@@ -42,14 +66,13 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
             return vida #para que na próxima fase a vida não comece com 3, mas com o que tinha nesta fase
           
     # Checar se a cobra pegou a moeda
-    if cobra.saber_cabeca() == comida.posicao:
+    if cobra.saber_cabeca() == ponto.posicao:
         # Aumenta o tamanho da cobra
         cobra.tamanho += 1
         # Aumenta a pontuação
         cobra.pontuacao += 1
         # O ponto reaparece
         ponto.aleatorizar_posicao(posicoes_obj, cobra.posicoes)
-
     
     elif cobra.saber_cabeca() == pocao_vida.posicao and vida <3:
         # Aumenta a vida
@@ -64,7 +87,6 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
             break #quando achar um inimigo que bateu, já pode parar de procurar
     # redesenhar a cobra, que pode estar maior do que antes
     cobra.desenhar(superficie)
-
     # redesenhar tudo - que podem ter sido comidos
     ponto.desenhar(superficie)
     if vida < 3:
@@ -84,14 +106,14 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
     if cobra.tamanho == 1:
         cobra.pontuacao = 0
     # Texto do placar
-    text_pont = fonte.render(f"Pontos: {cobra.pontuacao}", True, v.preto)
-    text_vel = fonte.render("Velocidade: {0}".format(v.vel), True, v.preto)
-    text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
+     # Texto do placar
+    text_pont = fonte.render("Pontos: {0}".format(cobra.pontuacao), True, v.preto)
     text_fase = fonte.render("Fase: 2", True, v.preto)
+    text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
+
     # Placar
     tela.blit(text_pont, (5, 10)) #pontuação no canto superior esquerdo
-    tela.blit(text_vel, (210, 10)) #velocidade no meio superior 
-    tela.blit(text_vida, (480, 10)) #velocidade no canto superior direito
-    tela.blit(text_fase,(5, 570))
+    tela.blit(text_fase, (260, 10)) #fase no meio superior 
+    tela.blit(text_vida, (480, 10)) #vida no canto superior direito
     # Fazendo a superfície de exibição realmente aparecer no monitor do usuário
     pygame.display.update()
