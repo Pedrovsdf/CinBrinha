@@ -33,14 +33,15 @@ def desenhar_rede(superficie):
 # Fonte do texto que estará no placar
 fonte = pygame.font.Font('freesansbold.ttf', 30)
 
-def inimigo_main(inimigo, vida):
+def inimigo_main(inimigo, vida, posicoes_obj, posicoes_cobra):
+    
     if vida <= 0:
         pygame.quit()
         sys.exit()
     # Diminui a pontuação
     vida -= 1
     # O inimigo reaparece
-    inimigo.aleatorizar_posicao()
+    inimigo.aleatorizar_posicao(posicoes_obj, posicoes_cobra) 
     return vida, inimigo.posicao
 
 def main():
@@ -67,9 +68,9 @@ def main():
     #Vida começa com 3
     vida = 3
 
-    Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
+    vida = Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
     desenhar_rede(superficie)
-    Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
+    vida = Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
     desenhar_rede(superficie)
     Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
     
