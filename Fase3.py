@@ -5,21 +5,52 @@ from Portal import Portal
 
 
 def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main):
-  ponto = ponto()
-  pocao_vida = Vida()
-  inimigo = Inimigo(False)
-  inimigo2 = Inimigo(False)
-  inimigo3 = Inimigo(False)
-  inimigo4 = Inimigo(False)
-  inimigo5 = Inimigo(False)
-  inimigo6 = Inimigo(False)
-  inimigo7 = Inimigo(False)
-  inimigo_movel1 = Inimigo(True)
-  inimigo_movel2 = Inimigo(True)
-  inimigo_movel3 = Inimigo(True)
-  inimigo_movel4 = Inimigo(True)
-  inimigo_movel5 = Inimigo(True)
-  inimigo_movel6 = Inimigo(True)
+  posicoes_obj = [(int(300), int(300))]
+  
+  ponto = Ponto(posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(ponto.posicao)
+
+  pocao_vida = Vida(posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(pocao_vida.posicao)
+
+  inimigo = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo.posicao)
+
+  inimigo2 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo2.posicao)
+
+  inimigo3 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo3.posicao)
+
+  inimigo4 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo4.posicao)
+
+  inimigo5 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo5.posicao)
+
+  inimigo6 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo6.posicao)
+  
+  inimigo7 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo7.posicao)
+  
+  inimigo_movel1 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel1.posicao)
+
+  inimigo_movel2 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel2.posicao)
+  
+  inimigo_movel3 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel3.posicao)
+  
+  inimigo_movel4 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel4.posicao)
+  
+  inimigo_movel5 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel5.posicao)
+
+  inimigo_movel6 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  posicoes_obj.append(inimigo_movel6.posicao)
   
   inimigos = [inimigo, inimigo2, inimigo3, inimigo4, inimigo5, inimigo_movel1, inimigo_movel2, inimigo_movel3, inimigo_movel4, inimigo6, inimigo7, inimigo_movel5, inimigo_movel6]
   while True:
