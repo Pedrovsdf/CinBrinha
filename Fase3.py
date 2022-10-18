@@ -51,33 +51,26 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
         cobra.tamanho += 1
         # Aumenta a pontuação
         cobra.pontuacao += 1
-        # A comida reaparece
-        comida.aleatorizar_posicao()
-    
-    # Checar se a cobra pegou o item de velocidade
-    if cobra.saber_cabeca() == velocidade.posicao:
-        v.vel += 2
-        cobra.pontuacao += 3
-        cobra.tamanho += 1
-        velocidade.aleatorizar_posicao()
+        # O ponto reaparece
+        ponto.aleatorizar_posicao(posicoes_obj, cobra.posicoes)
     
     elif cobra.saber_cabeca() == pocao_vida.posicao and vida <5:
         # Aumenta a vida
         vida += 1
         # A vida reaparece a cada tempo
-        pocao_vida.aleatorizar_posicao()
+        pocao_vida.aleatorizar_posicao(posicoes_obj, cobra.posicoes)
 
     #funçao para contabilizar o dano da vida
     for inimigo in inimigos:
         if cobra.saber_cabeca() == (inimigo.posicao):
-            vida, inimigo.posicao = inimigo_main(inimigo, vida)
+            vida, inimigo.posicao = inimigo_main(inimigo, vida, posicoes_obj, cobra.posicoes)
             break #quando achar um inimigo que bateu, já pode parar de procurar
     # redesenhar a cobra, que pode estar maior do que antes
     cobra.desenhar(superficie)
-    # redesenhar a comida, que pode ter sido comida
-    comida.desenhar(superficie)
-    velocidade.desenhar(superficie)
-    pocao_vida.desenhar(superficie)
+    # redesenhar 
+    ponto.desenhar(superficie)
+    if vida < 3:
+        pocao_vida.desenhar(superficie)
     inimigo.desenhar(superficie)
     inimigo2.desenhar(superficie)
     inimigo3.desenhar(superficie)
@@ -91,14 +84,12 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
     inimigo_movel4.desenhar(superficie)
     inimigo_movel5.desenhar(superficie)
     inimigo_movel6.desenhar(superficie)
-    pocao_vida.desenhar(superficie)
     # Tendo certeza de que a superfície está na tela
     tela.blit(superficie, (0, 0))
     if cobra.tamanho == 1:
         cobra.pontuacao = 0
     # Texto do placar
     text_pont = fonte.render(f"Pontos: {cobra.pontuacao}", True, v.preto)
-    text_vel = fonte.render("Velocidade: {0}".format(v.vel), True, v.preto)
     text_vida = fonte.render("Vida: {0}".format(vida), True, v.preto)
     text_fase = fonte.render("Fase: 3", True, v.preto)
 
@@ -106,7 +97,7 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, velocidade, v
     tela.blit(text_pont, (5, 10)) #pontuação no canto superior esquerdo
     tela.blit(text_vel, (210, 10)) #velocidade no meio superior 
     tela.blit(text_vida, (480, 10)) #velocidade no canto superior direito
-    tela.blit(text_fase,(5, 570))
+ 
     
     # Fazendo a superfície de exibição realmente aparecer no monitor do usuário
     pygame.display.update()
