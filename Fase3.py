@@ -105,7 +105,8 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     # redesenhar 
 
     ponto.desenhar(superficie)
-    pocao_vida.desenhar(superficie)
+    if vida < 3:
+        pocao_vida.desenhar(superficie)
     inimigo.desenhar(superficie)
     inimigo2.desenhar(superficie)
     inimigo3.desenhar(superficie)
@@ -119,7 +120,6 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     inimigo_movel4.desenhar(superficie)
     inimigo_movel5.desenhar(superficie)
     inimigo_movel6.desenhar(superficie)
-    pocao_vida.desenhar(superficie)
     # Tendo certeza de que a superfície está na tela
     tela.blit(superficie, (0, 0))
     if cobra.tamanho == 1:
