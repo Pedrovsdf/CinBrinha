@@ -4,6 +4,8 @@ import pygame
 import Variaveis as v
 from Cobra import Cobra
 
+
+
 # Classe da pontuação padrão
 class Ponto(object):
     # Definindo as informações principais da pontuação
@@ -21,6 +23,9 @@ class Ponto(object):
 
     # Desenhar a pontuação
     def desenhar(self, superficie):
+        fruta = pygame.image.load('apple.png').convert_alpha()
         retangulo = pygame.Rect((self.posicao[0], self.posicao[1]), (v.tamanho_rede, v.tamanho_rede))
-        pygame.draw.rect(superficie, self.color, retangulo)
-        pygame.draw.rect(superficie, v.preto, retangulo, 1)
+        superficie.blit(fruta, retangulo)
+
+        #pygame.draw.rect(superficie, self.color, retangulo)
+        #pygame.draw.rect(superficie, v.preto, retangulo, 1)
