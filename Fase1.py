@@ -41,7 +41,7 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     cobra.mover()
     inimigo_movel1.comando(v.CIMA)
 
-    if cobra.pontuacao >= 10: #a pontuação necessária para passar de fase é 10
+    if cobra.pontuacao >= 5: #a pontuação necessária para passar de fase é 5
         portal = Portal()
         portal.posicao = (300, 300)
         portal.desenhar(superficie)
@@ -91,7 +91,7 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
 
     # Tendo certeza de que a superfície está na tela
     tela.blit(superficie, (0, 0))
-    if cobra.tamanho == 1:
+    if cobra.tamanho == 2:
         cobra.pontuacao = 0
     # Texto do placar
     text_pont = fonte.render("Pontos: {0}".format(cobra.pontuacao), True, v.preto)
