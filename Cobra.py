@@ -8,7 +8,7 @@ class Cobra(object):
     # Definindo as informações principais da cobra
     def __init__(self):
         # Tamanho da cobra
-        self.tamanho = 3
+        self.tamanho = 2
         # Posição de toda a cobra, começando no meio da tela
         self.posicoes = [(int(v.largura / 2), int(v.altura / 2))]
         # Começar se movendo numa direção aleatória
@@ -81,6 +81,7 @@ class Cobra(object):
     def reset(self):
         sound2 = pygame.mixer.Sound('som\colisao_inimigo.mp3')
         pygame.mixer.Sound.play(sound2)
+        self.tamanho = 2
         self.posicoes = [((v.largura / 2), (v.altura / 2))]
         self.direcao = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
         pontuacao = 0
