@@ -24,11 +24,12 @@ def desenhar_rede(superficie):
                 # Definindo o retângulo
                 retangulo = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
                 # Desenhar o retângulo
-                pygame.draw.rect(superficie, v.cinza, retangulo)
+                pygame.draw.rect(superficie, v.verde_escuro, retangulo)
             else:
                 # rr = retângulo
                 retangulo2 = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
-                pygame.draw.rect(superficie, v.cinza, retangulo2)
+                pygame.draw.rect(superficie, v.verde_escuro, retangulo2)
+
 
 # Fonte do texto que estará no placar
 fonte = pygame.font.Font('freesansbold.ttf', 30)
@@ -36,8 +37,9 @@ fonte = pygame.font.Font('freesansbold.ttf', 30)
 def inimigo_main(inimigo, vida, posicoes_obj, posicoes_cobra):
     
     if vida <= 0:
-        pygame.quit()
-        sys.exit()
+        sound6 = pygame.mixer.Sound('som\gameover.wav')
+        pygame.mixer.Sound.play(sound6)
+        menu()
     # Diminui a pontuação
     vida -= 1
     # O inimigo reaparece
@@ -45,8 +47,10 @@ def inimigo_main(inimigo, vida, posicoes_obj, posicoes_cobra):
     return vida, inimigo.posicao
 
 def main():
+    sound5 = pygame.mixer.music.load('som\som_ambiente.mp3')
+    pygame.mixer.music.play(-1,0)
     pygame.init()
-
+    pygame.mixer.init()
     # Controla a velocidade com que o jogo roda
     relogio = pygame.time.Clock()
     # Setando a tela
@@ -76,4 +80,90 @@ def main():
     
 
 # Chamando a função main
-main()
+
+screen_width = 600
+screen_height = 600
+
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption('CINbrinha')
+
+font = pygame.font.SysFont('Constantia', 30)
+
+#define colours
+
+#define global variable
+clicked = False
+counter = 0
+
+class button():
+		
+	#colours for button and text
+	button_col = (255, 0, 0)
+	hover_col = (75, 225, 255)
+	click_col = (50, 150, 255)
+	cor_texto = v.preto
+	width = 180
+	height = 70
+
+	def __init__(self, x, y, text):
+		self.x = x
+		self.y = y
+		self.text = text
+
+	def draw_button(self):
+
+		global clicked
+		action = False
+
+		#get mouse position
+		pos = pygame.mouse.get_pos()
+
+		#create pygame Rect object for the button
+		button_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+		
+		#check mouseover and clicked conditions
+		if button_rect.collidepoint(pos):
+			if pygame.mouse.get_pressed()[0] == 1:
+				clicked = True
+				pygame.draw.rect(screen, self.click_col, button_rect)
+			elif pygame.mouse.get_pressed()[0] == 0 and clicked == True:
+				clicked = False
+				action = True
+			else:
+				pygame.draw.rect(screen, self.hover_col, button_rect)
+		else:
+			pygame.draw.rect(screen, self.button_col, button_rect)
+
+		#add text to button
+		text_img = font.render(self.text, True, self.cor_texto)
+		text_len = text_img.get_width()
+		screen.blit(text_img, (self.x + int(self.width / 2) - int(text_len / 2), self.y + 25))
+		return action
+
+
+
+again = button(75, 200, 'Jogar')
+quit = button(325, 200, 'Sair')
+
+def menu():
+    while True:
+
+        screen.fill(v.verde_claro)
+
+        if again.draw_button():
+            main()
+        
+        if quit.draw_button():
+            print('Quit')
+            pygame.quit()
+            sys.exit()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+
+        pygame.display.update()
+
+menu()

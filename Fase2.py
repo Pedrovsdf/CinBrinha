@@ -56,17 +56,21 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     inimigo_movel2.comando(v.DIREITA)
     inimigo_movel3.comando(v.ESQUERDA)
     inimigo_movel4.comando(v.BAIXO)
-    if cobra.pontuacao >= 15:
+    if cobra.pontuacao >= 5:
         portal = Portal()
         portal.posicao = (300, 300)
         portal.desenhar(superficie)
         if portal.posicao == cobra.saber_cabeca():
+            sound3 = pygame.mixer.Sound('som\passar_fase.wav')
+            pygame.mixer.Sound.play(sound3)
             cobra.pontuacao = 0
             portal.posicao = (-1, -1)
             return vida #para que na próxima fase a vida não comece com 3, mas com o que tinha nesta fase
           
     # Checar se a cobra pegou a moeda
     if cobra.saber_cabeca() == ponto.posicao:
+        sound1 = pygame.mixer.Sound('som\comer_maça.mp3')
+        pygame.mixer.Sound.play(sound1)
         # Aumenta o tamanho da cobra
         cobra.tamanho += 1
         # Aumenta a pontuação
@@ -75,6 +79,8 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
         ponto.aleatorizar_posicao(posicoes_obj, cobra.posicoes)
     
     elif cobra.saber_cabeca() == pocao_vida.posicao and vida <3:
+        sound4 = pygame.mixer.Sound('som\poçao.wav')
+        pygame.mixer.Sound.play(sound4)
         # Aumenta a vida
         vida += 1
         # A vida reaparece a cada tempo
@@ -83,6 +89,8 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     #funçao para contabilizar o dano da vida
     for inimigo in inimigos:
         if cobra.saber_cabeca() == (inimigo.posicao):
+            sound2 = pygame.mixer.Sound('som\colisao_inimigo.mp3')
+            pygame.mixer.Sound.play(sound2)
             vida, inimigo.posicao = inimigo_main(inimigo, vida, posicoes_obj, cobra.posicoes)
             break #quando achar um inimigo que bateu, já pode parar de procurar
     # redesenhar a cobra, que pode estar maior do que antes
@@ -103,7 +111,7 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
    
     # Tendo certeza de que a superfície está na tela
     tela.blit(superficie, (0, 0))
-    if cobra.tamanho == 1:
+    if cobra.tamanho == 3:
         cobra.pontuacao = 0
     # Texto do placar
      # Texto do placar

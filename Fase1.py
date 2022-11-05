@@ -41,16 +41,20 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     cobra.mover()
     inimigo_movel1.comando(v.CIMA)
 
-    if cobra.pontuacao >= 10: #a pontuação necessária para passar de fase é 10
+    if cobra.pontuacao >= 5: #a pontuação necessária para passar de fase é 5
         portal = Portal()
         portal.posicao = (300, 300)
         portal.desenhar(superficie)
         if portal.posicao == cobra.saber_cabeca():
+            sound3 = pygame.mixer.Sound('som\passar_fase.wav')
+            pygame.mixer.Sound.play(sound3)
             cobra.pontuacao = 0
             portal.posicao = (-1, -1)
             return vida
 
     if cobra.saber_cabeca() == ponto.posicao:
+        sound1 = pygame.mixer.Sound('som\comer_maça.mp3')
+        pygame.mixer.Sound.play(sound1)
         # Aumenta o tamanho da cobra
         cobra.tamanho += 1
         # Aumenta a pontuação
@@ -59,6 +63,8 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
         ponto.aleatorizar_posicao(posicoes_obj, cobra.posicoes)
 
     elif cobra.saber_cabeca() == pocao_vida.posicao and vida < 3:
+        sound4 = pygame.mixer.Sound('som\poçao.wav')
+        pygame.mixer.Sound.play(sound4)
         # Aumenta a vida
         vida += 1
         # A vida reaparece a cada tempo
@@ -67,6 +73,8 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     #funçao para contabilizar o dano da vida
     for inimigo in inimigos:
         if cobra.saber_cabeca() == (inimigo.posicao):
+            sound2 = pygame.mixer.Sound('som\colisao_inimigo.mp3')
+            pygame.mixer.Sound.play(sound2)
             vida, inimigo.posicao = inimigo_main(inimigo, vida, posicoes_obj, cobra.posicoes)
             break #quando achar um inimigo que bateu, já pode parar de procurar
     # redesenhar a cobra, que pode estar maior do que antes
@@ -83,7 +91,7 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
 
     # Tendo certeza de que a superfície está na tela
     tela.blit(superficie, (0, 0))
-    if cobra.tamanho == 1:
+    if cobra.tamanho == 3:
         cobra.pontuacao = 0
     # Texto do placar
     text_pont = fonte.render("Pontos: {0}".format(cobra.pontuacao), True, v.preto)
