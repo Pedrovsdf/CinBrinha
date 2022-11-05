@@ -1,5 +1,3 @@
-from email.mime import image
-from msilib.schema import Font
 import sys
 
 import pygame
