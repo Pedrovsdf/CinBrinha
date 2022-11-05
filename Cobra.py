@@ -84,8 +84,8 @@ class Cobra(object):
         self.tamanho = 3
         self.posicoes = [((v.largura / 2), (v.altura / 2))]
         self.direcao = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
-        pontuacao = 0
-        return self.tamanho, self.posicoes, self.direcao, pontuacao
+        self.pontuacao = 0
+        return self.tamanho, self.posicoes, self.direcao, self.pontuacao
 
     # Desenhar o corpo da cobra na superfície
 
