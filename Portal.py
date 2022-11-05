@@ -12,6 +12,6 @@ class Portal(object):
 
     # Desenhar a comida
     def desenhar(self, superficie):
+        portal = pygame.image.load('img\portal.png').convert_alpha()
         retangulo = pygame.Rect((self.posicao[0], self.posicao[1]), (v.tamanho_rede, v.tamanho_rede))
-        pygame.draw.rect(superficie, self.color, retangulo)
-        pygame.draw.rect(superficie, v.preto, retangulo, 1)
+        superficie.blit(portal,retangulo)

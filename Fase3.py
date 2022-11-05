@@ -4,6 +4,7 @@ from Pontos import Ponto
 from Portal import Portal
 
 
+
 def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main):
   posicoes_obj = [(int(300), int(300))]
   
@@ -77,11 +78,14 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
         if portal.posicao == cobra.saber_cabeca():
             cobra.pontuacao = 0
             portal.posicao = (-1, -1)
-            break
-
-
+            sound7 = pygame.mixer.Sound('som\som_vitoria.mp3')
+            pygame.mixer.Sound.play(sound7)
+            break            
+            
     # Checar se a cobra comeu o ponto
     if cobra.saber_cabeca() == ponto.posicao:
+        sound1 = pygame.mixer.Sound('som\comer_maça.mp3')
+        pygame.mixer.Sound.play(sound1)
         # Aumenta o tamanho da cobra
         cobra.tamanho += 1
         # Aumenta a pontuação
@@ -90,6 +94,8 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
         ponto.aleatorizar_posicao(posicoes_obj, cobra.posicoes)
     
     elif cobra.saber_cabeca() == pocao_vida.posicao and vida <5:
+        sound4 = pygame.mixer.Sound('som\poçao.wav')
+        pygame.mixer.Sound.play(sound4)
         # Aumenta a vida
         vida += 1
         # A vida reaparece a cada tempo
@@ -98,6 +104,8 @@ def Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     #funçao para contabilizar o dano da vida
     for inimigo in inimigos:
         if cobra.saber_cabeca() == (inimigo.posicao):
+            sound2 = pygame.mixer.Sound('som\colisao_inimigo.mp3')
+            pygame.mixer.Sound.play(sound2)
             vida, inimigo.posicao = inimigo_main(inimigo, vida, posicoes_obj, cobra.posicoes)
             break #quando achar um inimigo que bateu, já pode parar de procurar
     # redesenhar a cobra, que pode estar maior do que antes
