@@ -91,7 +91,7 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
 
     # Tendo certeza de que a superfície está na tela
     tela.blit(superficie, (0, 0))
-    if cobra.tamanho == 2:
+    if cobra.tamanho == 3:
         cobra.pontuacao = 0
     # Texto do placar
     text_pont = fonte.render("Pontos: {0}".format(cobra.pontuacao), True, v.preto)
