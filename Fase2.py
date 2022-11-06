@@ -53,7 +53,7 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     # Mover o corpo da cobra
     cobra.mover()
     inimigo_movel1.comando(v.CIMA)
-    inimigo_movel2.comando(v.DIREITA)
+    inimigo_movel2.comando(v.ESQUERDA)
     inimigo_movel3.comando(v.ESQUERDA)
     inimigo_movel4.comando(v.BAIXO)
     if cobra.pontuacao >= 5:
@@ -88,7 +88,7 @@ def Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
 
     #funçao para contabilizar o dano da vida
     for inimigo in inimigos:
-        if cobra.saber_cabeca() == (inimigo.posicao):
+        if len(cobra.posicoes) > 1 and inimigo.posicao in [cobra.saber_cabeca(), cobra.posicoes[1]]:
             sound2 = pygame.mixer.Sound('som\colisao_inimigo.mp3')
             pygame.mixer.Sound.play(sound2)
             vida, inimigo.posicao = inimigo_main(inimigo, vida, posicoes_obj, cobra.posicoes)
