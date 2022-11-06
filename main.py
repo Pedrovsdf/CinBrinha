@@ -153,7 +153,7 @@ def menu(vitoria = False):
         screen.fill(v.verde_claro)
 
         if vitoria == True:
-           text_congrats = fonte.render("Parabens voce ganhou!", True, v.preto)
+           text_congrats = fonte.render("Parabéns você ganhou!", True, v.preto)
            screen.blit(text_congrats, (120, 140))
 
            if play_again.draw_button():
