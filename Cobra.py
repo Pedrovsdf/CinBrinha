@@ -1,9 +1,10 @@
+#importação de bibliotecas e variáveis
 import random
 import sys
 import pygame
 import Variaveis as v
 
-
+#classe da cobra
 class Cobra(object):
     # Definindo as informações principais da cobra
     def __init__(self):
@@ -13,8 +14,6 @@ class Cobra(object):
         self.posicoes = [(int(v.largura / 2), int(v.altura / 2))]
         # Começar se movendo numa direção aleatória
         self.direcao = random.choice([v.CIMA, v.BAIXO, v.ESQUERDA, v.DIREITA])
-        # Cor da cobra
-        self.color = v.laranja
         # Pontuacao da cobra
         self.pontuacao = 0
 
@@ -119,7 +118,7 @@ class Cobra(object):
                 elif tail_relationX == 0 and tail_relationY == -20:
                     superficie.blit(self.cauda_baixo,retangulo)
 
-                direcao_anterior = self.direcao
+                #direcao_anterior = self.direcao
                 
             else:
                 bloco_anteriorX = self.posicoes[index + 1][0] - posicao[0]

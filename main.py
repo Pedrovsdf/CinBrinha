@@ -6,10 +6,6 @@ from Cobra import Cobra
 from Fase1 import Fase1
 from Fase2 import Fase2
 from Fase3 import Fase3
-from Inimigo import Inimigo
-from PocaoVida import Vida
-from Pontos import Ponto
-from Portal import Portal
 
 pygame.init()
 
@@ -18,24 +14,15 @@ def desenhar_rede(superficie):
     # Loop para fazer a "rede"
     for y in range(0, int(v.altura_rede)):
         for x in range(0, int(v.largura_rede)):
-            # Fazer os quadrados que estão lado a lado terem cores diferentes
-            if ((x + y) % 2) == 0:
-                # r = retângulo
-                # Definindo o retângulo
-                retangulo = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
-                # Desenhar o retângulo
-                pygame.draw.rect(superficie, v.verde_escuro, retangulo)
-            else:
-                # rr = retângulo
-                retangulo2 = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
-                pygame.draw.rect(superficie, v.verde_escuro, retangulo2)
+            retangulo2 = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
+            pygame.draw.rect(superficie, v.verde_escuro, retangulo2)
 
 
 # Fonte do texto que estará no placar
 fonte = pygame.font.Font('freesansbold.ttf', 30)
 
 def inimigo_main(inimigo, vida, posicoes_obj, posicoes_cobra):
-    
+    #reseta o jogo quando a vida fica menor que 0
     if vida <= 0:
         sound6 = pygame.mixer.Sound('som\gameover.wav')
         pygame.mixer.Sound.play(sound6)
@@ -79,25 +66,18 @@ def main():
     Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
     menu(True)
 
-# Chamando a função main
-
-screen_width = 600
-screen_height = 600
-
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((v.largura, v.altura))
 pygame.display.set_caption('CINbrinha')
 
 font = pygame.font.SysFont('Constantia', 30)
 
-#define colours
-
-#define global variable
+#define variável global
 clicked = False
 counter = 0
 
 class button():
 		
-	#colours for button and text
+	#cores para o botão e o texto
 	button_col = (255, 0, 0)
 	hover_col = (75, 225, 255)
 	click_col = (50, 150, 255)
@@ -116,17 +96,19 @@ class button():
 		global clicked
 		action = False
 
-		#get mouse position
+		#obtem posição do mouse
 		pos = pygame.mouse.get_pos()
 
-		#create pygame Rect object for the button
+		#cria o retângulo para o botão
 		button_rect = pygame.Rect(self.x, self.y, self.width, self.height)
 		
-		#check mouseover and clicked conditions
+		#checa se o mouse tá em cima do botão
 		if button_rect.collidepoint(pos):
+            #checa se o mouse foi clicado
 			if pygame.mouse.get_pressed()[0] == 1:
 				clicked = True
 				pygame.draw.rect(screen, self.click_col, button_rect)
+            #checa se o mouse foi 'solto' e o click foi computado
 			elif pygame.mouse.get_pressed()[0] == 0 and clicked == True:
 				clicked = False
 				action = True
@@ -135,38 +117,43 @@ class button():
 		else:
 			pygame.draw.rect(screen, self.button_col, button_rect)
 
-		#add text to button
+		#adiciona a fonte na 
 		text_img = font.render(self.text, True, self.cor_texto)
 		text_len = text_img.get_width()
 		screen.blit(text_img, (self.x + int(self.width / 2) - int(text_len / 2), self.y + 25))
 		return action
 
 
-
-again = button(75, 200, 'Jogar')
+#inicialização de botões
+play = button(75, 200, 'Jogar')
 play_again = button(75, 200, 'Jogar Novamente', 240)
 quit = button(325, 200, 'Sair')
 
+#função do menu
 def menu(vitoria = False):
     while True:
 
+        #preenche a tela
         screen.fill(v.verde_claro)
 
+        #tela de vitória
         if vitoria == True:
-           text_congrats = fonte.render("Parabéns você ganhou!", True, v.preto)
-           screen.blit(text_congrats, (120, 140))
+            text_congrats = fonte.render("Parabéns você ganhou!", True, v.preto)
+            screen.blit(text_congrats, (120, 140))
 
-           if play_again.draw_button():
-                main()
+            #jogar novamente
+            if play_again.draw_button():
+                    main()
         else:
-            if again.draw_button():
+            if play.draw_button():
                 main()
             
+        #botão de sair
         if quit.draw_button():
-            print('Quit')
             pygame.quit()
             sys.exit()
 
+        #encerra o jogo se ele for fechado na aba
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
