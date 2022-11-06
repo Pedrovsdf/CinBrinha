@@ -77,7 +77,7 @@ def main():
     vida = Fase2(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
     desenhar_rede(superficie)
     Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
-    
+    menu(True)
 
 # Chamando a função main
 
@@ -102,13 +102,14 @@ class button():
 	hover_col = (75, 225, 255)
 	click_col = (50, 150, 255)
 	cor_texto = v.preto
-	width = 180
 	height = 70
 
-	def __init__(self, x, y, text):
+	def __init__(self, x, y, text, width = 180):
 		self.x = x
 		self.y = y
 		self.text = text
+		self.width = width
+
 
 	def draw_button(self):
 
@@ -143,16 +144,24 @@ class button():
 
 
 again = button(75, 200, 'Jogar')
+play_again = button(75, 200, 'Jogar Novamente', 240)
 quit = button(325, 200, 'Sair')
 
-def menu():
+def menu(vitoria = False):
     while True:
 
         screen.fill(v.verde_claro)
 
-        if again.draw_button():
-            main()
-        
+        if vitoria == True:
+           text_congrats = fonte.render("Parabens voce ganhou!", True, v.preto)
+           screen.blit(text_congrats, (120, 140))
+
+           if play_again.draw_button():
+                main()
+        else:
+            if again.draw_button():
+                main()
+            
         if quit.draw_button():
             print('Quit')
             pygame.quit()
