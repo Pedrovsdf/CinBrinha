@@ -6,10 +6,6 @@ from Cobra import Cobra
 from Fase1 import Fase1
 from Fase2 import Fase2
 from Fase3 import Fase3
-from Inimigo import Inimigo
-from PocaoVida import Vida
-from Pontos import Ponto
-from Portal import Portal
 
 pygame.init()
 
@@ -18,24 +14,15 @@ def desenhar_rede(superficie):
     # Loop para fazer a "rede"
     for y in range(0, int(v.altura_rede)):
         for x in range(0, int(v.largura_rede)):
-            # Fazer os quadrados que estão lado a lado terem cores diferentes
-            if ((x + y) % 2) == 0:
-                # r = retângulo
-                # Definindo o retângulo
-                retangulo = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
-                # Desenhar o retângulo
-                pygame.draw.rect(superficie, v.verde_escuro, retangulo)
-            else:
-                # rr = retângulo
-                retangulo2 = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
-                pygame.draw.rect(superficie, v.verde_escuro, retangulo2)
+            retangulo2 = pygame.Rect((x * v.tamanho_rede, y * v.tamanho_rede), (v.tamanho_rede, v.tamanho_rede))
+            pygame.draw.rect(superficie, v.verde_escuro, retangulo2)
 
 
 # Fonte do texto que estará no placar
 fonte = pygame.font.Font('freesansbold.ttf', 30)
 
 def inimigo_main(inimigo, vida, posicoes_obj, posicoes_cobra):
-    
+    #reseta o jogo quando a vida fica menor que 0
     if vida <= 0:
         sound6 = pygame.mixer.Sound('som\gameover.wav')
         pygame.mixer.Sound.play(sound6)
@@ -79,19 +66,12 @@ def main():
     Fase3(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main)
     menu(True)
 
-# Chamando a função main
-
-screen_width = 600
-screen_height = 600
-
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((v.largura, v.altura))
 pygame.display.set_caption('CINbrinha')
 
 font = pygame.font.SysFont('Constantia', 30)
 
-#define colours
-
-#define global variable
+#define variável global
 clicked = False
 counter = 0
 
@@ -153,7 +133,7 @@ def menu(vitoria = False):
         screen.fill(v.verde_claro)
 
         if vitoria == True:
-           text_congrats = fonte.render("Parabéns você ganhou!", True, v.preto)
+           text_congrats = fonte.render("Parabens voce ganhou!", True, v.preto)
            screen.blit(text_congrats, (120, 140))
 
            if play_again.draw_button():

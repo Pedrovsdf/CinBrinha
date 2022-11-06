@@ -1,3 +1,4 @@
+#importação de classes
 from Inimigo import Inimigo
 from PocaoVida import Vida
 from Pontos import Ponto
@@ -7,28 +8,28 @@ from Portal import Portal
 def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, fonte, inimigo_main):
   posicoes_obj = [(int(300), int(300))]
   
+  #Sequência de inicializações das Classes
+  #Appends para incluir a posição dos objetos a cada inicialização, para evitar que um objeto surja...
+  #... no mesmo local que outro
   ponto = Ponto(posicoes_obj, cobra.posicoes)
   posicoes_obj.append(ponto.posicao)
 
   pocao_vida = Vida(posicoes_obj, cobra.posicoes)
   posicoes_obj.append(pocao_vida.posicao)
 
-  inimigo = Inimigo(False, posicoes_obj, cobra.posicoes)
+  inimigo = Inimigo(posicoes_obj, cobra.posicoes)
   posicoes_obj.append(inimigo.posicao)
 
-  inimigo2 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  inimigo2 = Inimigo(posicoes_obj, cobra.posicoes)
   posicoes_obj.append(inimigo2.posicao)
 
-  inimigo3 = Inimigo(False, posicoes_obj, cobra.posicoes)
+  inimigo3 = Inimigo(posicoes_obj, cobra.posicoes)
   posicoes_obj.append(inimigo3.posicao)
 
-  inimigo4 = Inimigo(False, posicoes_obj, cobra.posicoes)
-  posicoes_obj.append(inimigo4.posicao)
-
-  inimigo_movel1 = Inimigo(True, posicoes_obj, cobra.posicoes)
+  inimigo_movel1 = Inimigo(posicoes_obj, cobra.posicoes)
   posicoes_obj.append(inimigo_movel1.posicao)
 
-  inimigos = [inimigo, inimigo2, inimigo3, inimigo4, inimigo_movel1]
+  inimigos = [inimigo_movel1, inimigo, inimigo2, inimigo3]
   
   while True:
     # Mudando a velocidade com que a cobra se move
@@ -39,12 +40,16 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
     desenhar_rede(superficie)
     # Mover o corpo da cobra
     cobra.mover()
-    inimigo_movel1.comando(v.CIMA)
+
+    #declaração do movimento do inimigo móvel
+    inimigo_movel1.movel(v.CIMA)
 
     if cobra.pontuacao >= 5: #a pontuação necessária para passar de fase é 5
         portal = Portal()
         portal.posicao = (300, 300)
         portal.desenhar(superficie)
+
+        #cobra entra no portal
         if portal.posicao == cobra.saber_cabeca():
             sound3 = pygame.mixer.Sound('som\passar_fase.wav')
             pygame.mixer.Sound.play(sound3)
@@ -52,6 +57,7 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
             portal.posicao = (-1, -1)
             return vida
 
+    #cobra pega a maçã
     if cobra.saber_cabeca() == ponto.posicao:
         sound1 = pygame.mixer.Sound('som\comer_maça.mp3')
         pygame.mixer.Sound.play(sound1)
@@ -62,6 +68,7 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
         # O ponto reaparece
         ponto.aleatorizar_posicao(posicoes_obj, cobra.posicoes)
 
+    #cobra pega a vida
     elif cobra.saber_cabeca() == pocao_vida.posicao and vida < 3:
         sound4 = pygame.mixer.Sound('som\poçao.wav')
         pygame.mixer.Sound.play(sound4)
@@ -72,21 +79,22 @@ def Fase1(pygame, relogio, tela, superficie, desenhar_rede, cobra, vida, v, font
 
     #funçao para contabilizar o dano da vida
     for inimigo in inimigos:
-        if len(cobra.posicoes) > 1 and inimigo.posicao in [cobra.saber_cabeca(), cobra.posicoes[1]]:
+         if len(cobra.posicoes) > 1 and inimigo.posicao in [cobra.saber_cabeca(), cobra.posicoes[1]]:
             sound2 = pygame.mixer.Sound('som\colisao_inimigo.mp3')
             pygame.mixer.Sound.play(sound2)
             vida, inimigo.posicao = inimigo_main(inimigo, vida, posicoes_obj, cobra.posicoes)
-            break #quando achar um inimigo que bateu, já pode parar de procurar
+            #break #quando achar um inimigo que bateu, já pode parar de procurar
+    
     # redesenhar a cobra, que pode estar maior do que antes
     cobra.desenhar(superficie)
     # redesenhar tudo, pode ter sido comido
     ponto.desenhar(superficie)
+    #vida só aparece na tela quando tem menos de 3
     if vida < 3:
         pocao_vida.desenhar(superficie)
     inimigo.desenhar(superficie)
     inimigo2.desenhar(superficie)
     inimigo3.desenhar(superficie)
-    inimigo4.desenhar(superficie)
     inimigo_movel1.desenhar(superficie)
 
     # Tendo certeza de que a superfície está na tela
